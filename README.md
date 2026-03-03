@@ -144,3 +144,5 @@ npm run build
 3. **Database**: RLS policies enforce admin-only write operations
 4. **Storage**: Product image upload restricted to admin role
 5. **Subdomain**: Separate deployment from public site..
+
+hello
