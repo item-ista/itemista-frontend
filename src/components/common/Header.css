@@ -1,0 +1,28 @@
+/* Header Component - Base Styles */
+
+.header {
+  position: relative;
+  z-index: 100;
+}
+
+.header-container {
+  width: 100%;
+}
+
+/* Common Styles */
+a {
+  text-decoration: none;
+}
+
+/* Mobile Responsive Utilities */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}

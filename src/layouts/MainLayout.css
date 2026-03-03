@@ -1,0 +1,55 @@
+/* MainLayout Styles */
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex-grow: 1;
+  margin-top: 70px; /* Account for fixed desktop header */
+}
+
+@media (max-width: 768px) {
+  .flex-grow {
+    margin-top: 85px; /* Account for fixed mobile header */
+  }
+}
+
+.main-layout {
+  
+}
+
+/* Categories Container */
+.categories-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 70px; /* Account for fixed header */
+  padding: 16px 20px;
+  background-color: #F5F5F5;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.categories-container + .flex-grow {
+  margin-top: 0; /* Remove margin when categories are shown */
+}
+
+@media (max-width: 768px) {
+  .categories-container {
+    display: none;
+  }
+}
+
+/* No scroll for categories page */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}

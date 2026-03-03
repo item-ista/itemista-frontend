@@ -1,0 +1,37 @@
+/* TopBar Component Styles */
+
+.top-bar {
+  background: linear-gradient(135deg, #ec4899 0%, #f57224 100%);
+  padding: 8px 0;
+}
+
+.top-bar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.top-bar-links {
+  display: flex;
+  gap: 20px;
+}
+
+.top-bar-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  transition: opacity 0.2s;
+}
+
+.top-bar-links a:hover {
+  opacity: 0.8;
+}
+
+/* Mobile - Hide TopBar */
+@media (max-width: 768px) {
+  .top-bar {
+    display: none;
+  }
+}

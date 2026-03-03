@@ -1,0 +1,248 @@
+.addresses-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.addresses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.addresses-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.add-address-btn-desktop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f85606;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.add-address-btn-desktop:hover {
+  background-color: #d04504;
+}
+
+.addresses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.address-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s;
+}
+
+.address-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.address-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.address-tag-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f0faff;
+  color: #0397d6;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.address-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #757575;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.action-btn.delete:hover {
+  color: #d9534f;
+  background-color: #fff0f0;
+}
+
+.address-card-content {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.address-text-row {
+  align-items: flex-start;
+}
+
+.info-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.address-card-footer {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 16px;
+}
+
+.default-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+}
+
+.toggle-label input {
+  accent-color: #0397d6;
+  width: 16px;
+  height: 16px;
+}
+
+/* Empty State */
+.empty-addresses {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 8px;
+  border: 1px dashed #e0e0e0;
+  text-align: center;
+}
+
+.empty-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #999;
+}
+
+.empty-addresses h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.empty-addresses p {
+  color: #757575;
+  margin-bottom: 24px;
+}
+
+.add-address-btn-primary {
+  background-color: #f85606;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* FAB for Mobile */
+.fab-add-address {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #f85606;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(248, 86, 6, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .addresses-page {
+    padding: 16px;
+    padding-bottom: 80px; /* Space for FAB */
+  }
+
+  .addresses-header {
+    margin-bottom: 16px;
+  }
+
+  .add-address-btn-desktop {
+    display: none;
+  }
+
+  .addresses-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) {
+  .fab-add-address {
+    display: none;
+  }
+}

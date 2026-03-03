@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Disallow auth and user private pages
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /profile
+Disallow: /orders
+Disallow: /wishlist
+Disallow: /addresses
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+Disallow: /payment-success
+Disallow: /auth/callback
+Disallow: /admin
+
+Sitemap: https://itemista.com/sitemap.xml

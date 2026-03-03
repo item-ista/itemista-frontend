@@ -1,0 +1,22 @@
+/* Home Page Styles */
+
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.home-content {
+  padding: 0 16px;
+}
+
+@media (max-width: 768px) {
+  .home-page {
+    /* For mobile, if we want full width banner */
+    padding: 0;
+  }
+  
+  .home-content {
+      /* Re-add padding that might be removed from parent if we want banner edge-to-edge but content padded */
+  }
+}

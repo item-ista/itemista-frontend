@@ -1,0 +1,14 @@
+import { Outlet } from 'react-router-dom';
+import ScrollToTop from '../components/common/ScrollToTop';
+import './AuthLayout.css';
+
+const AuthLayout = () => {
+  return (
+    <div className="auth-layout">
+      <ScrollToTop />
+      <Outlet />
+    </div>
+  );
+};
+
+export default AuthLayout;

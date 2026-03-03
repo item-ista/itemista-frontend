@@ -1,0 +1,64 @@
+/* MobileHeader Component Styles */
+
+.header.mobile-header {
+  display: none;
+  background: #ffffff;
+  padding: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.mobile-header .header-container {
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.mobile-header .back-arrow-mobile {
+  color: #333;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 4px;
+  position: absolute;
+  left: 8px;
+}
+
+.mobile-header .search-container {
+  flex: 0 1 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* Show on Mobile */
+@media (max-width: 768px) {
+  .header.mobile-header {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .header.mobile-header {
+    padding: 6px 0;
+  }
+  
+  .mobile-header .header-container {
+    padding: 0 6px;
+    gap: 6px;
+  }
+
+  .mobile-header .back-arrow-mobile {
+    left: 6px;
+  }
+}
