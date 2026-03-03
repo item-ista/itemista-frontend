@@ -143,6 +143,4 @@ npm run build
 2. **Auth**: Login rejects non-admin users
 3. **Database**: RLS policies enforce admin-only write operations
 4. **Storage**: Product image upload restricted to admin role
-5. **Subdomain**: Separate deployment from public site..
-
-hello hi kese ho
+5. **Subdomain**: Separate deployment from public site..........
