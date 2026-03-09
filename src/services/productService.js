@@ -103,6 +103,24 @@ export const productService = {
     }
   },
 
+  // Fetch just for you products
+  getJustForYouProducts: async () => {
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('is_just_for_you', true)
+        .eq('status', 'active')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching just for you products:', error);
+      return [];
+    }
+  },
+
   // Get products by category
   getProductsByCategory: async (category) => {
     try {

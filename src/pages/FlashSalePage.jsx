@@ -6,7 +6,7 @@ import { productService } from '../services/productService';
 import ProductCard from '../components/products/ProductCard';
 import './FlashSalePage.css';
 
-const FlashSalePage = () => {
+const FlashSalePage = ({ pageType }) => {
   const [searchParams] = useSearchParams();
   const { slug } = useParams();
   const [products, setProducts] = useState([]);
@@ -39,7 +39,11 @@ const FlashSalePage = () => {
       const searchQuery = searchParams.get('q') || searchParams.get('search');
 
       let data;
-      if (searchQuery) {
+      if (pageType === 'flash-sale') {
+        data = await productService.getFlashSaleProducts();
+      } else if (pageType === 'just-for-you') {
+        data = await productService.getJustForYouProducts();
+      } else if (searchQuery) {
         data = await productService.searchProducts(searchQuery);
       } else if (category) {
         data = await productService.getProductsByCategory(category);
@@ -100,7 +104,11 @@ const FlashSalePage = () => {
         <div className="products-header">
           <div className="products-header-left">
             <h1>
-              {(searchParams.get('category') || (slug ? decodeURIComponent(slug) : ''))
+              {pageType === 'flash-sale'
+                ? 'Flash Sale'
+                : pageType === 'just-for-you'
+                ? 'Just For You'
+                : (searchParams.get('category') || (slug ? decodeURIComponent(slug) : ''))
                 ? `${searchParams.get('category') || decodeURIComponent(slug || '')}` 
                 : searchParams.get('q') || searchParams.get('search')
                 ? `Search: "${searchParams.get('q') || searchParams.get('search')}"`

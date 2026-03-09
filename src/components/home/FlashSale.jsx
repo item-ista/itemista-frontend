@@ -1,10 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
+import { ShoppingCart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { productService } from '../../services/productService';
+import { useCart } from '../../hooks/useCart';
+import { useNotification } from '../../hooks/useNotification';
 import './FlashSale.css';
 
+const getColumnCount = () => {
+  const w = window.innerWidth;
+  if (w > 1024) return 6;
+  if (w > 768) return 4;
+  if (w > 480) return 3;
+  return 2;
+};
+
 const FlashSale = () => {
+  const { addToCart } = useCart();
+  const { showSuccess } = useNotification();
   const [timeLeft, setTimeLeft] = useState({
     hours: 23,
     minutes: 59,
@@ -12,6 +25,13 @@ const FlashSale = () => {
   });
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cols, setCols] = useState(getColumnCount);
+
+  useEffect(() => {
+    const handleResize = () => setCols(getColumnCount());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fetch flash sale products from Supabase
   useEffect(() => {
@@ -71,6 +91,20 @@ const FlashSale = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const handleAddToCart = (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart({
+      id: product.id,
+      name: product.name,
+      title: product.name,
+      price: product.price,
+      originalPrice: product.cut_price,
+      image: product.image,
+    }, 1);
+    showSuccess('Successfully added to cart');
+  };
+
   return (
     <section className="flash-sale-section">
       {/* Desktop Header */}
@@ -117,7 +151,7 @@ const FlashSale = () => {
         ) : products.length === 0 ? (
           <div className="flash-sale-empty">No flash sale products available</div>
         ) : (
-          products.map((product, index) => (
+          products.slice(0, cols * 2).map((product, index) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, x: 50 }}
@@ -151,6 +185,13 @@ const FlashSale = () => {
                       <span className="stock-text">{product.stock} Stock left</span>
                     </div>
                   )}
+                  <button
+                    className="fs-add-cart-btn"
+                    onClick={(e) => handleAddToCart(e, product)}
+                  >
+                    <ShoppingCart size={14} />
+                    Add to Cart
+                  </button>
                 </div>
               </Link>
             </motion.div>

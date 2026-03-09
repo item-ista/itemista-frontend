@@ -1,242 +1,113 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { Star, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCart } from '../../hooks/useCart';
 import { useNotification } from '../../hooks/useNotification';
+import { productService } from '../../services/productService';
 import './JustForYou.css';
 
 const JustForYou = () => {
   const { addToCart } = useCart();
   const { showSuccess } = useNotification();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fetchProducts = async () => {
+      try {
+        const data = await productService.getJustForYouProducts();
+        if (!cancelled) setProducts(data);
+      } catch (error) {
+        console.error('Error fetching just for you products:', error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    const timeout = setTimeout(() => {
+      if (!cancelled) { cancelled = true; setLoading(false); }
+    }, 8000);
+    fetchProducts();
+    return () => { cancelled = true; clearTimeout(timeout); };
+  }, []);
 
   const handleAddToCart = (e, product) => {
     e.preventDefault();
     e.stopPropagation();
-    const productToAdd = {
+    addToCart({
       id: product.id,
       name: product.name,
       title: product.name,
       price: product.price,
-      originalPrice: product.originalPrice,
+      originalPrice: product.cut_price,
       image: product.image,
-    };
-    addToCart(productToAdd, 1);
+    }, 1);
     showSuccess('Successfully added to cart');
   };
 
-  // Mock data for 12 products
-  const products = [
-    {
-      id: 1,
-      name: "Premium Large Bath Towel - Ultra Soft & Absorbent",
-      price: 1484,
-      originalPrice: 1500,
-      discount: 1,
-      rating: 4.5,
-      reviews: 1,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 2,
-      name: "T9 Vintage Hair Trimmer For Men | T9 Professional Cordless",
-      price: 799,
-      originalPrice: 1599,
-      discount: 50,
-      rating: 4.8,
-      reviews: 3837,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 3,
-      name: "Pro White TWS Airpods Sound & High Quality",
-      price: 725,
-      originalPrice: 3000,
-      discount: 76,
-      rating: 4.2,
-      reviews: 2582,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 4,
-      name: "NEW ARRIVAL PURE FLEECE ( THE NORTH FACE )",
-      price: 1799,
-      originalPrice: 3400,
-      discount: 47,
-      rating: 4.0,
-      reviews: 5,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 5,
-      name: "Ring Toss Game For Kids With 18 inch Stand",
-      price: 287,
-      originalPrice: 500,
-      discount: 43,
-      rating: 4.7,
-      reviews: 811,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 6,
-      name: "NAVY BLUE BTS PRINTED WINTER WARM FLEECE",
-      price: 899,
-      originalPrice: 3500,
-      discount: 74,
-      rating: 4.6,
-      reviews: 209,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 7,
-      name: "A FAMILY STORE PROVIDES PACK OF 3",
-      price: 99,
-      originalPrice: 299,
-      discount: 67,
-      rating: 4.1,
-      reviews: 154,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 8,
-      name: "TRENDY PRINTED SUMMER TRACKSUIT FOR",
-      price: 949,
-      originalPrice: 3399,
-      discount: 72,
-      rating: 3.5,
-      reviews: 6,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 9,
-      name: "PACK OF 3 AMAZING NECKLACE DEAL FOR",
-      price: 79,
-      originalPrice: 299,
-      discount: 74,
-      rating: 4.3,
-      reviews: 181,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 10,
-      name: "White & black markhor printed For Men & Boys",
-      price: 899,
-      originalPrice: 1599,
-      discount: 44,
-      rating: 4.7,
-      reviews: 1859,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 11,
-      name: "Pack of 05 Soft Cotton Underwear Panties for",
-      price: 277,
-      originalPrice: 799,
-      discount: 65,
-      rating: 4.8,
-      reviews: 3332,
-      image: "/placeholder-product.jpg"
-    },
-    {
-      id: 12,
-      name: "Slippers for men House slipper for man Slippers",
-      price: 329,
-      originalPrice: 2050,
-      discount: 84,
-      rating: 4.2,
-      reviews: 708,
-      image: "/placeholder-product.jpg"
-    }
-  ];
-
-  const renderStars = (rating) => {
-    return (
-      <div className="rating-stars">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star 
-            key={star} 
-            size={10} 
-            className={`star-icon ${star <= rating ? 'filled' : ''}`} 
-            fill={star <= rating ? "#FFC107" : "none"}
-            color={star <= rating ? "#FFC107" : "#CBCBCB"}
-          />
-        ))}
-      </div>
-    );
-  };
+  if (loading) return null;
+  if (products.length === 0) return null;
 
   return (
-    <section className="just-for-you-section">
-      <motion.h2 
-        className="section-title"
-        initial={{ opacity: 0, y: -20 }}
+    <section className="jfy-section">
+      {/* Header */}
+      <motion.div
+        className="jfy-header"
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false }}
+        viewport={{ once: true }}
       >
-        Just For You
-      </motion.h2>
-      <motion.div 
-        className="jfy-grid"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, margin: "-50px" }}
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: {
-              staggerChildren: 0.1
-            }
-          }
-        }}
-      >
+        <div className="jfy-title-block">
+          <h2>Just For You</h2>
+          <span className="jfy-subtitle">Handpicked For You</span>
+        </div>
+        <Link to="/just-for-you" className="jfy-shop-all-btn">SHOP ALL PRODUCTS</Link>
+      </motion.div>
+
+      {/* Products Grid */}
+      <div className="jfy-products">
         {products.map((product, index) => (
           <motion.div
             key={product.id}
-            variants={{
-              hidden: { opacity: 0, y: 30, scale: 0.95 },
-              visible: { 
-                opacity: 1, 
-                y: 0, 
-                scale: 1,
-                transition: { 
-                  type: "spring", 
-                  stiffness: 100, 
-                  damping: 10 
-                } 
-              }
-            }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, margin: '-50px' }}
+            transition={{ delay: index * 0.05, type: 'spring', stiffness: 100 }}
           >
-            <Link to={`/products/${product.id}`} className="jfy-card">
-            <div className="jfy-image-container">
-              <img src={product.image} alt={product.name} className="jfy-image" />
-              {product.discount > 0 && (
-                <div className="jfy-discount-badge">-{product.discount}%</div>
+            <Link to={`/product/${product.slug}`} className="jfy-card">
+              {product.discount_percentage > 0 && (
+                <div className="jfy-badge">
+                  <span className="jfy-save-text">SAVE</span>
+                  <span className="jfy-discount-pct">-{Math.round(product.discount_percentage)}%</span>
+                </div>
               )}
-            </div>
-            <div className="jfy-info">
-              <h3 className="jfy-name">{product.name}</h3>
-              <div className="jfy-price-container">
-                <span className="jfy-price">Rs.{product.price}</span>
-                {product.discount > 0 && (
-                  <span className="jfy-discount-text">-{product.discount}%</span>
-                )}
+              <div className="jfy-img-wrap">
+                <img src={product.image || '/placeholder-product.jpg'} alt={product.name} className="jfy-img" />
               </div>
-              <div className="jfy-rating-container">
-                 {renderStars(product.rating)}
-                 <span className="jfy-reviews">({product.reviews})</span>
+              <div className="jfy-info">
+                <h3 className="jfy-name">{product.name}</h3>
+                <div className="jfy-pricing">
+                  <span className="jfy-price">Rs.{product.price}</span>
+                  {product.cut_price && (
+                    <span className="jfy-cut-price">Rs.{product.cut_price}</span>
+                  )}
+                  {product.discount_percentage > 0 && (
+                    <span className="jfy-disc-label">-{Math.round(product.discount_percentage)}%</span>
+                  )}
+                </div>
+                <button
+                  className="jfy-cart-btn"
+                  onClick={(e) => handleAddToCart(e, product)}
+                >
+                  <ShoppingCart size={14} />
+                  Add to Cart
+                </button>
               </div>
-              <button 
-                className="jfy-add-cart-btn"
-                onClick={(e) => handleAddToCart(e, product)}
-              >
-                <ShoppingCart size={14} />
-                Add to Cart
-              </button>
-            </div>
-          </Link>
+            </Link>
           </motion.div>
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 };

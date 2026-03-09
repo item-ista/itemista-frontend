@@ -1,5 +1,196 @@
 /* Contact Page Styles */
 
 .contact-page {
-  
+  min-height: 100vh;
+  background-color: #fafafa;
+}
+
+/* Container */
+.contact-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* Grid */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Contact Info */
+.contact-info {
+  padding-top: 20px;
+}
+
+.contact-info h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #2e2e54;
+  margin-bottom: 30px;
+}
+
+.contact-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.contact-info-icon {
+  color: #e91e8c;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.contact-info-item h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2e2e54;
+  margin: 0 0 4px 0;
+}
+
+.contact-info-item p {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Form Card */
+.contact-form-wrapper {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.contact-form-wrapper h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #2e2e54;
+  margin-bottom: 30px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Space between input groups */
+}
+
+/* Floating Label Inputs */
+.contact-input-group {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  position: relative;
+  width: 100%;
+}
+
+.contact-input-group input,
+.contact-input-group textarea {
+  font-size: 100%;
+  padding: 0.8em;
+  outline: none;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 20px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  color: #333;
+}
+
+.contact-input-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-input-group label {
+  font-size: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.8em;
+  margin-left: 0.5em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: rgb(150, 150, 150);
+}
+
+.contact-input-group :is(input:focus, input:valid, textarea:focus, textarea:valid) ~ label {
+  transform: translateY(-50%) scale(0.9);
+  margin: 0;
+  margin-left: 1.3em;
+  padding: 0 0.4em;
+  background-color: #ffffff;
+  color: #2e2e54;
+}
+
+.contact-input-group :is(input:focus, input:valid, textarea:focus, textarea:valid) {
+  border-color: #e91e8c;
+}
+
+/* Remove default browser autofill background explicitly so transparent inputs don't look weird under white labels */
+.contact-input-group input:-webkit-autofill,
+.contact-input-group textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #333 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Submit Button */
+.contact-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e91e8c;
+  color: #fff;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.contact-submit-btn:hover {
+  background: #c2185b;
+  transform: translateY(-1px);
+}
+
+/* Success */
+.contact-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.contact-success-icon {
+  color: #e91e8c;
+  margin-bottom: 16px;
+}
+
+.contact-success h3 {
+  font-size: 1.3rem;
+  color: #2e2e54;
+  margin-bottom: 8px;
+}
+
+.contact-success p {
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 }

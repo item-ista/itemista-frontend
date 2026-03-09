@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
+import CategoryNav from '../components/common/CategoryNav';
 import CategoriesDropdown from '../components/common/CategoriesDropdown';
 import ScrollToTop from '../components/common/ScrollToTop';
 import Chatbot from '../components/common/Chatbot';
@@ -15,6 +16,7 @@ const MainLayout = () => {
     <div className={`min-h-screen flex flex-col ${isCategoriesPage ? 'no-scroll' : ''}`}>
       <ScrollToTop />
       <Header />
+      <CategoryNav />
       {showCategories && (
         <div className="categories-container">
           <CategoriesDropdown />

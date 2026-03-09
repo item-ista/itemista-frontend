@@ -14,12 +14,12 @@
 
 .flex-grow {
   flex-grow: 1;
-  margin-top: 70px; /* Account for fixed desktop header */
+  margin-top: 110px; /* Account for fixed desktop header + category nav */
 }
 
 @media (max-width: 768px) {
   .flex-grow {
-    margin-top: 85px; /* Account for fixed mobile header */
+    margin-top: 85px; /* Account for fixed mobile header (no category nav on mobile) */
   }
 }
 
@@ -31,7 +31,7 @@
 .categories-container {
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 70px; /* Account for fixed header */
+  margin-top: 110px; /* Account for fixed header + category nav */
   padding: 16px 20px;
   background-color: #F5F5F5;
   display: flex;

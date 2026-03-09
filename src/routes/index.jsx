@@ -11,7 +11,11 @@ import ProductDetail from '../pages/ProductDetail';
 import Categories from '../pages/Categories';
 import About from '../pages/About';
 import Contact from '../pages/Contact';
+import FAQ from '../pages/FAQ';
+import HelpCenter from '../pages/HelpCenter';
 import FlashSalePage from '../pages/FlashSalePage';
+import ProductsPage from '../pages/FlashSalePage';
+import JustForYouPage from '../pages/FlashSalePage';
 
 // Auth Pages
 import AuthDisabled from '../pages/auth/AuthDisabled';
@@ -69,7 +73,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'flash-sale',
-        element: <FlashSalePage />,
+        element: <FlashSalePage pageType="flash-sale" />,
+      },
+      {
+        path: 'products',
+        element: <ProductsPage pageType="all" />,
+      },
+      {
+        path: 'just-for-you',
+        element: <JustForYouPage pageType="just-for-you" />,
       },
       {
         path: 'product/:slug',
@@ -90,6 +102,14 @@ const router = createBrowserRouter([
       {
         path: 'contact',
         element: <Contact />,
+      },
+      {
+        path: 'faq',
+        element: <FAQ />,
+      },
+      {
+        path: 'help',
+        element: <HelpCenter />,
       },
       {
         path: 'cart',

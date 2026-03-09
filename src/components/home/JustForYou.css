@@ -1,46 +1,109 @@
-.just-for-you-section {
+/* Just For You Section */
+.jfy-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px 40px 16px;
+  padding: 24px 16px;
+  background-color: #fff;
+  margin-bottom: 20px;
 }
 
-.section-title {
-  font-size: 22px;
+/* Header */
+.jfy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f5f5f5;
+  padding-bottom: 16px;
+}
+
+.jfy-title-block h2 {
+  font-size: 24px;
+  font-weight: 600;
   color: #333;
-  margin-bottom: 16px;
-  font-weight: 500;
-  text-align: left;
+  margin: 0 0 4px 0;
 }
 
-.jfy-grid {
+.jfy-subtitle {
+  color: #ec4899;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.jfy-shop-all-btn {
+  border: 2px solid #ec4899;
+  color: #ec4899;
+  padding: 10px 24px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.jfy-shop-all-btn:hover {
+  background-color: #ec4899;
+  color: white;
+}
+
+/* Products Grid */
+.jfy-products {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
+/* Card */
 .jfy-card {
-  background-color: white;
-  border-radius: 4px;
-  overflow: hidden;
-  transition: box-shadow 0.2s;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  position: relative;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  transition: box-shadow 0.3s;
   text-decoration: none;
+  display: block;
 }
 
 .jfy-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.jfy-image-container {
+/* Discount Badge */
+.jfy-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #d32f2f;
+  color: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-align: center;
+  z-index: 2;
+}
+
+.jfy-save-text {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.jfy-discount-pct {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Image */
+.jfy-img-wrap {
   position: relative;
-  padding-top: 100%; /* 1:1 Aspect Ratio */
+  padding-top: 100%;
   width: 100%;
+  background-color: #f9f9f9;
 }
 
-.jfy-image {
+.jfy-img {
   position: absolute;
   top: 0;
   left: 0;
@@ -49,86 +112,58 @@
   object-fit: cover;
 }
 
-.jfy-discount-badge {
-  /* Some UI doesn't show badge on card image, but top right or bottom */
-  /* Following daraz style might not have badge on top left, but discount next to price. 
-     But user screenshot didn't show discount on image generally for Just For You, 
-     wait, the first screenshot lists items, and they have discount text next to price. 
-     Ah, but wait, some do have badges like "PACK OF THREE". 
-     I'll stick to simple first. The screenshot shows -XX% next to price. */
-  display: none; 
-}
-
+/* Info */
 .jfy-info {
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  margin-top: 10px;
+  text-align: left;
 }
 
 .jfy-name {
   font-size: 13px;
-  color: #212121;
-  line-height: 18px;
-  /* Multi-line ellipsis */
+  color: #333;
+  margin: 0 0 8px 0;
+  height: 36px;
+  overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 4px;
-  font-weight: 400;
-  height: 36px; /* Enforce 2 lines height */
+  line-height: 1.4;
 }
 
-.jfy-price-container {
-  margin-top: auto;
+.jfy-pricing {
   display: flex;
-  align-items: baseline;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .jfy-price {
+  font-size: 16px;
+  font-weight: bold;
   color: #ec4899;
-  font-size: 18px;
-  font-weight: 500;
 }
 
-.jfy-original {
-  color: #9e9e9e;
+.jfy-cut-price {
   font-size: 12px;
+  color: #999;
   text-decoration: line-through;
 }
 
-.jfy-discount-text {
-  font-size: 12px;
-  color: #333;
-}
-
-.jfy-rating-container {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.rating-stars {
-  display: flex;
-}
-
-.jfy-reviews {
-  font-size: 10px;
-  color: #9e9e9e;
+.jfy-disc-label {
+  font-size: 11px;
+  color: #666;
 }
 
 /* Add to Cart Button */
-.jfy-add-cart-btn {
+.jfy-cart-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   width: 100%;
   padding: 8px 12px;
-  margin-top: 8px;
+  margin-top: 4px;
   background-color: #ec4899;
   color: #fff;
   border: none;
@@ -139,27 +174,57 @@
   transition: background-color 0.2s, transform 0.1s;
 }
 
-.jfy-add-cart-btn:hover {
+.jfy-cart-btn:hover {
   background-color: #db2777;
 }
 
-.jfy-add-cart-btn:active {
+.jfy-cart-btn:active {
   transform: scale(0.98);
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .just-for-you-section {
-    padding: 0 12px 60px 12px;
+/* Tablet */
+@media (max-width: 1024px) {
+  .jfy-products {
+    grid-template-columns: repeat(4, 1fr);
   }
-  
-  .section-title {
-    font-size: 18px;
-    margin-bottom: 12px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .jfy-section {
+    padding: 16px 12px;
+    margin: 0 12px 16px 12px;
   }
 
-  .jfy-grid {
+  .jfy-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .jfy-shop-all-btn {
+    align-self: flex-end;
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  .jfy-products {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .jfy-products {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+  }
+
+  .jfy-name {
+    font-size: 12px;
+  }
+
+  .jfy-price {
+    font-size: 14px;
   }
 }

@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { 
-  MessageSquare,
-  Bot,
-  X,
-  CreditCard,
   Globe,
-  Smartphone,
   ShieldCheck
 } from 'lucide-react';
 import './Footer.css';
@@ -24,12 +19,8 @@ const Footer = () => {
             <h3 className="footer-title">Customer Care</h3>
             <ul className="footer-links">
               <li><Link to="/help">Help Center</Link></li>
-              <li><Link to="/how-to-buy">How to Buy</Link></li>
-              <li><Link to="/bulk-purchasing">Corporate & Bulk Purchasing</Link></li>
-              <li><Link to="/returns">Returns & Refunds</Link></li>
+              <li><Link to="/faq">FAQs</Link></li>
               <li><Link to="/contact">Contact Us</Link></li>
-              <li><Link to="/protection">Purchase Protection</Link></li>
-              <li><Link to="/pickup-points">ItemIsta Pick up Points</Link></li>
             </ul>
           </div>
 
@@ -37,13 +28,20 @@ const Footer = () => {
             <h3 className="footer-title">ItemIsta</h3>
             <ul className="footer-links">
               <li><Link to="/about">About Us</Link></li>
-              <li><Link to="/payments">Digital Payments</Link></li>
-              <li><Link to="/donates">ItemIsta Donates</Link></li>
-              <li><Link to="/blog">ItemIsta Blog</Link></li>
-              <li><Link to="/terms">Terms & Conditions</Link></li>
-              <li><Link to="/privacy">Privacy Policy</Link></li>
-              <li><Link to="/sell">Sell on ItemIsta</Link></li>
-              <li><Link to="/affiliate">Join ItemIsta Affiliate Program</Link></li>
+              <li><Link to="/products">All Products</Link></li>
+              <li><Link to="/flash-sale">Flash Sale</Link></li>
+              <li><Link to="/categories">Categories</Link></li>
+            </ul>
+          </div>
+
+          <div className="footer-column">
+            <h3 className="footer-title">My Account</h3>
+            <ul className="footer-links">
+              <li><Link to="/profile">My Profile</Link></li>
+              <li><Link to="/orders">My Orders</Link></li>
+              <li><Link to="/wishlist">My Wishlist</Link></li>
+              <li><Link to="/addresses">My Addresses</Link></li>
+              <li><Link to="/cart">Cart</Link></li>
             </ul>
           </div>
 
