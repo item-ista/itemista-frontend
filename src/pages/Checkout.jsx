@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { ChevronLeft, MapPin, Store, ChevronRight, Ticket, Info, CreditCard } from 'lucide-react';
+import { ChevronLeft, MapPin, Store, ChevronRight, Ticket, Info, CreditCard, AlertTriangle } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { useAddress } from '../hooks/useAddress';
+import { useNotification } from '../hooks/useNotification';
 import AddressDrawer from '../components/common/AddressDrawer';
 import './Checkout.css';
 
@@ -10,24 +11,26 @@ const DELIVERY_FEE = 165;
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cartItems, cartTotal, deliveryAddress, setDeliveryAddress } = useCart();
+  const { checkoutItems, checkoutTotal, deliveryAddress, setDeliveryAddress } = useCart();
   const { addresses, addAddress, updateAddress } = useAddress();
+  const { showError } = useNotification();
   const [isAddressDrawerOpen, setIsAddressDrawerOpen] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
   
   // Use addresses from context or fallback to empty array
   // If deliveryAddress is set in CartContext (from previous selection), use it.
   // Otherwise, fallback to default or first address.
   const shippingAddress = deliveryAddress || addresses.find(addr => addr.isDefaultShipping) || addresses[0];
 
-  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const orderTotal = cartTotal + DELIVERY_FEE;
+  const totalQuantity = checkoutItems.reduce((sum, item) => sum + item.quantity, 0);
+  const orderTotal = checkoutTotal + DELIVERY_FEE;
 
   // Redirect to cart if no items
   useEffect(() => {
-    if (cartItems.length === 0) {
+    if (checkoutItems.length === 0) {
       navigate('/cart');
     }
-  }, [cartItems, navigate]);
+  }, [checkoutItems, navigate]);
 
   const handleAddOrUpdateAddress = (address, isUpdate) => {
     if (isUpdate) {
@@ -118,7 +121,7 @@ const Checkout = () => {
                </div>
             </div>
 
-            {cartItems.map((item) => {
+            {checkoutItems.map((item) => {
               const discount = item.originalPrice 
                 ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100) 
                 : 0;
@@ -192,7 +195,7 @@ const Checkout = () => {
              
              <div className="summary-row desktop-only">
                 <span>Items Total ({totalQuantity} items)</span>
-                <span>Rs. {cartTotal.toLocaleString()}</span>
+               <span>Rs. {checkoutTotal.toLocaleString()}</span>
              </div>
              <div className="summary-row desktop-only">
                 <span>Delivery Fee</span>
@@ -202,7 +205,7 @@ const Checkout = () => {
              {/* Mobile Summary Rows */}
              <div className="summary-row mobile-only">
                 <span className="summary-label">Merchandise Subtotal ({totalQuantity} items)</span>
-                <span className="summary-value">Rs. {cartTotal.toLocaleString()}</span>
+               <span className="summary-value">Rs. {checkoutTotal.toLocaleString()}</span>
              </div>
              <div className="summary-row mobile-only">
                 <span className="summary-label">Shipping Fee Subtotal</span>
@@ -219,7 +222,13 @@ const Checkout = () => {
 
              <button 
                className="proceed-btn desktop-only"
-               onClick={() => navigate('/payment')}
+               onClick={() => {
+                 if (!shippingAddress || addresses.length === 0) {
+                   setShowAddressModal(true);
+                   return;
+                 }
+                 navigate('/payment');
+               }}
              >
                Proceed to Pay
              </button>
@@ -227,19 +236,27 @@ const Checkout = () => {
         </div>
       </div>
 
-      {/* Mobile Sticky Footer */}
-      <div className="checkout-mobile-footer mobile-only">
-         <div className="footer-total">
-            <span className="total-label">Total:</span>
-            <span className="total-price">Rs. {orderTotal.toLocaleString()}</span>
-         </div>
-         <button 
-           className="proceed-btn-mobile"
-           onClick={() => navigate('/payment')}
-         >
-           Proceed to Pay
-         </button>
-      </div>
+      {/* Mobile Sticky Footer - Hide when address drawer is open to avoid overlap */}
+      {!isAddressDrawerOpen && (
+        <div className="checkout-mobile-footer mobile-only">
+           <div className="footer-total">
+              <span className="total-label">Total:</span>
+              <span className="total-price">Rs. {orderTotal.toLocaleString()}</span>
+           </div>
+           <button 
+             className="proceed-btn-mobile"
+             onClick={() => {
+               if (!shippingAddress || addresses.length === 0) {
+                 setShowAddressModal(true);
+                 return;
+               }
+               navigate('/payment');
+             }}
+           >
+             Proceed to Pay
+           </button>
+        </div>
+      )}
 
       {/* Address Drawer */}
       <AddressDrawer
@@ -253,6 +270,33 @@ const Checkout = () => {
         }}
         onAddAddress={handleAddOrUpdateAddress}
       />
+
+      {/* Address Required Modal */}
+      {showAddressModal && (
+        <div className="address-modal-overlay" onClick={() => setShowAddressModal(false)}>
+          <div className="address-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="address-modal-icon">
+              <AlertTriangle size={48} />
+            </div>
+            <h3 className="address-modal-title">Delivery Address Required</h3>
+            <p className="address-modal-text">
+              Please add a delivery address before placing your order. You'll be redirected to the address page.
+            </p>
+            <div className="address-modal-actions">
+              <button className="address-modal-btn primary" onClick={() => {
+                setShowAddressModal(false);
+                sessionStorage.setItem('checkout-return', 'true');
+                navigate('/addresses');
+              }}>
+                Add Address
+              </button>
+              <button className="address-modal-btn secondary" onClick={() => setShowAddressModal(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

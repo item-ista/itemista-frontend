@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Plus, MapPin, Phone, Trash2, Edit2, Home, Briefcase, Hash } from 'lucide-react';
 import { useAddress } from '../../hooks/useAddress';
 import AddressDrawer from '../../components/common/AddressDrawer';
+import ConfirmModal from '../../components/common/ConfirmModal';
 import './Addresses.css';
 
 const Addresses = () => {
@@ -9,6 +10,7 @@ const Addresses = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerMode, setDrawerMode] = useState('list'); // 'add' or 'edit'
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addressToDelete, setAddressToDelete] = useState(null);
 
   const handleAddClick = () => {
     setSelectedAddress(null);
@@ -23,8 +25,13 @@ const Addresses = () => {
   };
 
   const handleDeleteClick = (id) => {
-    if (window.confirm('Are you sure you want to delete this address?')) {
-      deleteAddress(id);
+    setAddressToDelete(id);
+  };
+
+  const confirmDelete = () => {
+    if (addressToDelete) {
+      deleteAddress(addressToDelete);
+      setAddressToDelete(null);
     }
   };
 
@@ -96,7 +103,10 @@ const Addresses = () => {
                 </div>
                 <div className="info-row address-text-row">
                   <MapPin size={14} className="info-icon" />
-                  <p>{address.address}, {address.region}</p>
+                  <p>
+                    {address.address && `${address.address}${address.region ? ', ' : ''}`}
+                    {address.region}
+                  </p>
                 </div>
               </div>
 
@@ -149,6 +159,16 @@ const Addresses = () => {
           setIsDrawerOpen(false);
         }}
         savedAddresses={addresses}
+      />
+      <ConfirmModal 
+        isOpen={!!addressToDelete}
+        onClose={() => setAddressToDelete(null)}
+        onConfirm={confirmDelete}
+        title="Delete Address"
+        message="Are you sure you want to delete this address? This action cannot be undone."
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+        type="danger"
       />
     </div>
   );

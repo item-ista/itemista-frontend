@@ -14,7 +14,7 @@ const DesktopHeader = () => {
       <div className="header-container">
         {/* Logo */}
         <Link to="/" className="header-logo">
-          <img src="/logos/ItemIstaWhite.png" alt="ItemIsta" className="header-logo-img" />
+          <img src="/ItemIstaWhite.png" alt="ItemIsta" className="header-logo-img" />
         </Link>
 
         {/* Search Bar */}

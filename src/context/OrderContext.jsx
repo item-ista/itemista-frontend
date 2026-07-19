@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { supabase } from '../lib/supabase';
 import { AuthContext } from './AuthContext';
+import { sendOrderConfirmationEmail } from '../services/orderEmailService';
 
 export const OrderContext = createContext(null);
 
@@ -43,6 +44,7 @@ export const OrderProvider = ({ children }) => {
         customer_name: orderDetails.shippingAddress?.name || orderDetails.customerName || '',
         customer_email: orderDetails.shippingAddress?.email || user?.email || '',
         customer_phone: orderDetails.shippingAddress?.phone || orderDetails.customerPhone || '',
+        selected_address_id: orderDetails.selectedAddressId || orderDetails.shippingAddress?.id || null,
         shipping_address: typeof orderDetails.shippingAddress === 'object'
           ? JSON.stringify(orderDetails.shippingAddress)
           : (orderDetails.shippingAddress || ''),
@@ -53,7 +55,8 @@ export const OrderProvider = ({ children }) => {
         total: orderDetails.totalAmount || orderDetails.total || 0,
         status: 'pending',
         payment_method: orderDetails.paymentMethod || 'Cash on Delivery',
-        payment_status: 'pending',
+        payment_status: orderDetails.paymentStatus || 'pending',
+        payment_details: orderDetails.paymentDetails || {},
         notes: orderDetails.notes || '',
       };
 
@@ -64,6 +67,13 @@ export const OrderProvider = ({ children }) => {
         .single();
 
       if (error) throw error;
+
+      // Try to send confirmation email, but never fail order creation if email fails.
+      await sendOrderConfirmationEmail({
+        order: data,
+        customerEmail: data.customer_email,
+        customerName: data.customer_name,
+      });
 
       setOrders((prev) => [data, ...prev]);
       return data;

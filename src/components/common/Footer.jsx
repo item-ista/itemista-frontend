@@ -48,7 +48,7 @@ const Footer = () => {
           <div className="footer-column app-download-section">
             <div className="download-app-header">
               <div className="app-icon-placeholder">
-                <img src="/logos/ItemIstaPink.png" alt="ItemIsta App" />
+                <img src="/ItemIstaPink.png" alt="ItemIsta App" />
               </div>
               <div className="download-text">
                 <span className="happy-shopping">Happy Shopping</span>

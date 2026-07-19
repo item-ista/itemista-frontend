@@ -8,8 +8,8 @@ import { productService } from '../../services/productService';
 import './JustForYou.css';
 
 const JustForYou = () => {
-  const { addToCart } = useCart();
-  const { showSuccess } = useNotification();
+  const { addToCart, isInCart } = useCart();
+  const { showCartAdded, showCartAlreadyAdded } = useNotification();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,6 +35,12 @@ const JustForYou = () => {
   const handleAddToCart = (e, product) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (isInCart(product.id)) {
+      showCartAlreadyAdded('Product already added to cart');
+      return;
+    }
+
     addToCart({
       id: product.id,
       name: product.name,
@@ -43,7 +49,7 @@ const JustForYou = () => {
       originalPrice: product.cut_price,
       image: product.image,
     }, 1);
-    showSuccess('Successfully added to cart');
+    showCartAdded('Product added to cart');
   };
 
   if (loading) return null;
@@ -67,46 +73,50 @@ const JustForYou = () => {
 
       {/* Products Grid */}
       <div className="jfy-products">
-        {products.map((product, index) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, margin: '-50px' }}
-            transition={{ delay: index * 0.05, type: 'spring', stiffness: 100 }}
-          >
-            <Link to={`/product/${product.slug}`} className="jfy-card">
-              {product.discount_percentage > 0 && (
-                <div className="jfy-badge">
-                  <span className="jfy-save-text">SAVE</span>
-                  <span className="jfy-discount-pct">-{Math.round(product.discount_percentage)}%</span>
+        {products.map((product, index) => {
+          const alreadyInCart = isInCart(product.id);
+
+          return (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: '-50px' }}
+              transition={{ delay: index * 0.05, type: 'spring', stiffness: 100 }}
+            >
+              <Link to={`/product/${product.slug}`} className="jfy-card">
+                {product.discount_percentage > 0 && (
+                  <div className="jfy-badge">
+                    <span className="jfy-save-text">SAVE</span>
+                    <span className="jfy-discount-pct">-{Math.round(product.discount_percentage)}%</span>
+                  </div>
+                )}
+                <div className="jfy-img-wrap">
+                  <img src={product.image || '/placeholder-product.jpg'} alt={product.name} className="jfy-img" />
                 </div>
-              )}
-              <div className="jfy-img-wrap">
-                <img src={product.image || '/placeholder-product.jpg'} alt={product.name} className="jfy-img" />
-              </div>
-              <div className="jfy-info">
-                <h3 className="jfy-name">{product.name}</h3>
-                <div className="jfy-pricing">
-                  <span className="jfy-price">Rs.{product.price}</span>
-                  {product.cut_price && (
-                    <span className="jfy-cut-price">Rs.{product.cut_price}</span>
-                  )}
-                  {product.discount_percentage > 0 && (
-                    <span className="jfy-disc-label">-{Math.round(product.discount_percentage)}%</span>
-                  )}
+                <div className="jfy-info">
+                  <h3 className="jfy-name">{product.name}</h3>
+                  <div className="jfy-pricing">
+                    <span className="jfy-price">Rs.{product.price}</span>
+                    {product.cut_price && (
+                      <span className="jfy-cut-price">Rs.{product.cut_price}</span>
+                    )}
+                    {product.discount_percentage > 0 && (
+                      <span className="jfy-disc-label">-{Math.round(product.discount_percentage)}%</span>
+                    )}
+                  </div>
+                  <button
+                    className={`jfy-cart-btn ${alreadyInCart ? 'added' : ''}`}
+                    onClick={(e) => handleAddToCart(e, product)}
+                  >
+                    <ShoppingCart size={14} />
+                    {alreadyInCart ? 'Added to Cart' : 'Add to Cart'}
+                  </button>
                 </div>
-                <button
-                  className="jfy-cart-btn"
-                  onClick={(e) => handleAddToCart(e, product)}
-                >
-                  <ShoppingCart size={14} />
-                  Add to Cart
-                </button>
-              </div>
-            </Link>
-          </motion.div>
-        ))}
+              </Link>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );

@@ -16,8 +16,8 @@ const getColumnCount = () => {
 };
 
 const FlashSale = () => {
-  const { addToCart } = useCart();
-  const { showSuccess } = useNotification();
+  const { addToCart, isInCart } = useCart();
+  const { showCartAdded, showCartAlreadyAdded } = useNotification();
   const [timeLeft, setTimeLeft] = useState({
     hours: 23,
     minutes: 59,
@@ -94,6 +94,12 @@ const FlashSale = () => {
   const handleAddToCart = (e, product) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (isInCart(product.id)) {
+      showCartAlreadyAdded('Product already added to cart');
+      return;
+    }
+
     addToCart({
       id: product.id,
       name: product.name,
@@ -102,7 +108,7 @@ const FlashSale = () => {
       originalPrice: product.cut_price,
       image: product.image,
     }, 1);
-    showSuccess('Successfully added to cart');
+    showCartAdded('Product added to cart');
   };
 
   return (
@@ -151,51 +157,55 @@ const FlashSale = () => {
         ) : products.length === 0 ? (
           <div className="flash-sale-empty">No flash sale products available</div>
         ) : (
-          products.slice(0, cols * 2).map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, margin: "-50px" }}
-              transition={{ delay: index * 0.05, type: 'spring', stiffness: 100 }}
-            >
-              <Link to={`/product/${product.slug}`} className="flash-sale-product-card">
-                {product.discount_percentage > 0 && (
-                  <div className="discount-badge">
-                    <span className="save-text">SAVE</span>
-                    <span className="discount-percent">-{Math.round(product.discount_percentage)}%</span>
-                  </div>
-                )}
-                <div className="product-image-container">
-                  <img src={product.image || '/placeholder-product.jpg'} alt={product.name} className="product-image" />
-                </div>
-                <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <div className="product-pricing">
-                    <span className="product-price">Rs.{product.price}</span>
-                    {product.cut_price && (
-                      <span className="product-original-price">Rs.{product.cut_price}</span>
-                    )}
-                    {product.discount_percentage > 0 && (
-                      <span className="product-discount">-{Math.round(product.discount_percentage)}%</span>
-                    )}
-                  </div>
-                  {product.stock > 0 && product.stock <= 10 && (
-                    <div className="stock-indicator">
-                      <span className="stock-text">{product.stock} Stock left</span>
+          products.slice(0, cols * 2).map((product, index) => {
+            const alreadyInCart = isInCart(product.id);
+
+            return (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, margin: "-50px" }}
+                transition={{ delay: index * 0.05, type: 'spring', stiffness: 100 }}
+              >
+                <Link to={`/product/${product.slug}`} className="flash-sale-product-card">
+                  {product.discount_percentage > 0 && (
+                    <div className="discount-badge">
+                      <span className="save-text">SAVE</span>
+                      <span className="discount-percent">-{Math.round(product.discount_percentage)}%</span>
                     </div>
                   )}
-                  <button
-                    className="fs-add-cart-btn"
-                    onClick={(e) => handleAddToCart(e, product)}
-                  >
-                    <ShoppingCart size={14} />
-                    Add to Cart
-                  </button>
-                </div>
-              </Link>
-            </motion.div>
-          ))
+                  <div className="product-image-container">
+                    <img src={product.image || '/placeholder-product.jpg'} alt={product.name} className="product-image" />
+                  </div>
+                  <div className="product-info">
+                    <h3 className="product-name">{product.name}</h3>
+                    <div className="product-pricing">
+                      <span className="product-price">Rs.{product.price}</span>
+                      {product.cut_price && (
+                        <span className="product-original-price">Rs.{product.cut_price}</span>
+                      )}
+                      {product.discount_percentage > 0 && (
+                        <span className="product-discount">-{Math.round(product.discount_percentage)}%</span>
+                      )}
+                    </div>
+                    {product.stock > 0 && product.stock <= 10 && (
+                      <div className="stock-indicator">
+                        <span className="stock-text">{product.stock} Stock left</span>
+                      </div>
+                    )}
+                    <button
+                      className={`fs-add-cart-btn ${alreadyInCart ? 'added' : ''}`}
+                      onClick={(e) => handleAddToCart(e, product)}
+                    >
+                      <ShoppingCart size={14} />
+                      {alreadyInCart ? 'Added to Cart' : 'Add to Cart'}
+                    </button>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })
         )}
       </div>
     </section>

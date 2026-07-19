@@ -115,19 +115,25 @@
 .info-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #666;
-  margin-bottom: 6px;
+  gap: 10px;
+  color: #64748b;
+  margin-bottom: 8px;
   font-size: 14px;
+  line-height: 1.4;
 }
 
 .address-text-row {
   align-items: flex-start;
 }
 
+.address-text-row p {
+  margin: 0;
+  padding: 0;
+}
+
 .info-icon {
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 3px; /* Align with first line center */
 }
 
 .address-card-footer {

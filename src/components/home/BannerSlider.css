@@ -3,69 +3,93 @@
   position: relative;
   overflow: hidden;
   border-radius: 0;
-  /* Margin to separate from header roughly if needed, usually managed by parent container */
-  margin-bottom: 20px;
-  background-color: #ddd; /* placeholder color while loading */
-  aspect-ratio: 1976 / 688; /* Based on image filename dimensions */
+  margin: 0 auto 20px;
+  background-color: #f3f3f3;
+  aspect-ratio: 1976 / 688;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 @media (min-width: 769px) {
   .banner-slider {
-    margin: 0 auto 20px auto;
+    margin: 0 auto 30px auto;
     padding: 0 16px;
     width: calc(100% - 32px);
+    border-radius: 12px;
   }
 }
 
 .banner-track {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
   height: 100%;
+  will-change: transform;
 }
 
 .banner-slide {
-  min-width: 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .banner-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   display: block;
+  background-color: #f3f3f3;
+  transition: transform 0.3s ease;
 }
 
 .banner-indicators {
   position: absolute;
-  bottom: 12px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  z-index: 10;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
 }
 
 .indicator-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.4);
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+}
+
+.indicator-dot:hover {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .indicator-dot.active {
   background-color: white;
-  width: 24px;
-  border-radius: 4px;
+  width: 28px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .banner-slider {
-    border-radius: 15px;
-    margin: 12px 12px 20px 12px;
-    width: calc(100% - 24px);
+    border-radius: 0;
+    margin: 0 0 20px 0;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  
+  .banner-indicators {
+    bottom: 12px;
+    padding: 6px 10px;
   }
 }

@@ -204,6 +204,14 @@
   transform: scale(0.98);
 }
 
+.fs-add-cart-btn.added {
+  background-color: #16a34a;
+}
+
+.fs-add-cart-btn.added:hover {
+  background-color: #15803d;
+}
+
 /* Tablet Styles */
 @media (max-width: 1024px) {
   .flash-sale-products {

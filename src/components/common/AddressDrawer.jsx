@@ -281,10 +281,13 @@ const AddressDrawer = ({
                         </div>
                         <div className="address-line">
                           <span className="address-tag">{address.tag}</span>
-                          <span className="address-text">{address.address}</span>
+                          <span className="address-text">
+                            {address.address}
+                          </span>
                         </div>
                         <div className="address-region">
-                          Region: {address.region}
+                          <MapPin size={12} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
+                          <span>{address.region}</span>
                         </div>
                         {(address.isDefaultShipping || address.isDefaultBilling) && (
                           <div className="address-badges">

@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -41,6 +45,113 @@ button {
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
+}
+
+.Toastify__toast.custom-toast {
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.2);
+  font-weight: 600;
+  min-height: 40px;
+  padding: 8px 36px 8px 12px;
+  font-size: 13px;
+}
+
+.Toastify__toast-container--top-right {
+  top: calc(env(safe-area-inset-top, 0px) + 98px);
+  right: 14px;
+  width: auto;
+  max-width: min(420px, calc(100vw - 24px));
+  padding: 0;
+}
+
+.Toastify__toast-container--top-right .Toastify__toast {
+  margin-bottom: 8px;
+}
+
+.Toastify__toast.custom-toast .Toastify__toast-body {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.Toastify__toast.custom-toast .Toastify__toast-body > div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Toastify__toast.custom-toast .Toastify__toast-icon svg {
+  fill: currentColor;
+}
+
+.Toastify__toast.custom-toast .Toastify__close-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  color: #ffffff;
+  opacity: 0.95;
+}
+
+.Toastify__toast.cart-added-toast {
+  background: linear-gradient(135deg, #ec4899, #db2777) !important;
+  color: #ffffff !important;
+}
+
+.Toastify__progress-bar.cart-added-progress {
+  background: rgba(255, 255, 255, 0.92) !important;
+  opacity: 1 !important;
+}
+
+.Toastify__toast.cart-already-toast {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: #ffffff !important;
+}
+
+.Toastify__progress-bar.cart-already-progress {
+  background: rgba(254, 226, 226, 0.95) !important;
+  opacity: 1 !important;
+}
+
+.Toastify__toast.order-success-toast {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #ffffff !important;
+}
+
+.Toastify__progress-bar.order-success-progress {
+  background: rgba(255, 255, 255, 0.92) !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 768px) {
+  .Toastify__toast-container--top-right {
+    top: calc(env(safe-area-inset-top, 0px) + 80px);
+    right: 10px;
+    left: auto;
+    transform: none;
+    max-width: calc(100vw - 20px);
+  }
+
+  .Toastify__toast.custom-toast {
+    border-radius: 10px;
+    min-height: 36px;
+    padding: 7px 32px 7px 10px;
+    font-size: 12px;
+  }
+
+  .Toastify__toast.custom-toast .Toastify__toast-icon {
+    width: 16px;
+    margin-inline-end: 8px;
+  }
+
+  .Toastify__toast.custom-toast .Toastify__close-button {
+    right: 8px;
+    font-size: 13px;
+  }
 }
 
 

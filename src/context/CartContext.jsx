@@ -16,6 +16,13 @@ const getStoredDeliveryAddress = () => {
   } catch { return null; }
 };
 
+const getStoredBuyNowItem = () => {
+  try {
+    const saved = localStorage.getItem('buyNowItem');
+    return saved ? JSON.parse(saved) : null;
+  } catch { return null; }
+};
+
 // ── Load cart from DB with product details ────────────────────────────────────
 const loadCartFromDB = async (uid) => {
   try {
@@ -90,6 +97,7 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(getStoredCart);
   const [userId, setUserId] = useState(null);
   const [deliveryAddress, setDeliveryAddress] = useState(getStoredDeliveryAddress);
+  const [buyNowItem, setBuyNowItem] = useState(getStoredBuyNowItem);
 
   // ── Persist cart to localStorage on every change ──────────────────────────
   useEffect(() => {
@@ -104,6 +112,14 @@ export const CartProvider = ({ children }) => {
       localStorage.removeItem('deliveryAddress');
     }
   }, [deliveryAddress]);
+
+  useEffect(() => {
+    if (buyNowItem) {
+      localStorage.setItem('buyNowItem', JSON.stringify(buyNowItem));
+    } else {
+      localStorage.removeItem('buyNowItem');
+    }
+  }, [buyNowItem]);
 
   // ── Handle login: load from DB, merge with guest cart ─────────────────────
   const handleSignIn = async (uid) => {
@@ -129,7 +145,9 @@ export const CartProvider = ({ children }) => {
         } else if (event === 'SIGNED_OUT') {
           setUserId(null);
           setCartItems([]);
+          setBuyNowItem(null);
           localStorage.removeItem('cart');
+          localStorage.removeItem('buyNowItem');
         }
       }
     );
@@ -170,17 +188,49 @@ export const CartProvider = ({ children }) => {
     clearCartInDB(userId);
   };
 
+  const isInCart = (productId) => {
+    if (productId === null || productId === undefined) return false;
+    return cartItems.some((item) => String(item.id) === String(productId));
+  };
+
+  const setBuyNowProduct = (product, quantity = 1) => {
+    if (!product) return;
+    setBuyNowItem({
+      ...product,
+      quantity,
+    });
+  };
+
+  const clearBuyNowProduct = () => {
+    setBuyNowItem(null);
+  };
+
+  const startCheckoutFromCart = () => {
+    clearBuyNowProduct();
+  };
+
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const cartCount = cartItems.reduce((count, item) => count + item.quantity, 0);
+  const checkoutItems = buyNowItem ? [buyNowItem] : cartItems;
+  const checkoutTotal = checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const checkoutCount = checkoutItems.reduce((count, item) => count + item.quantity, 0);
 
   return (
     <CartContext.Provider
       value={{
         cartItems,
+        buyNowItem,
+        checkoutItems,
+        checkoutTotal,
+        checkoutCount,
         addToCart,
         removeFromCart,
         updateQuantity,
         clearCart,
+        isInCart,
+        setBuyNowProduct,
+        clearBuyNowProduct,
+        startCheckoutFromCart,
         cartTotal,
         cartCount,
         deliveryAddress,

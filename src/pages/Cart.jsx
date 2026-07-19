@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router';
 import { Trash2, Plus, Minus, ShoppingCart, ArrowLeft } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
+import { useNotification } from '../hooks/useNotification';
 import './Cart.css';
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, updateQuantity, cartTotal, cartCount, clearCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, cartTotal, cartCount, clearCart, startCheckoutFromCart } = useCart();
+  const { showCartRemoved } = useNotification();
 
   const handleQuantityChange = (productId, currentQty, type) => {
     if (type === 'inc') {
@@ -19,6 +21,16 @@ const Cart = () => {
     if (productSlug) {
       navigate(`/product/${productSlug}`);
     }
+  };
+
+  const handleRemoveItem = (productId) => {
+    removeFromCart(productId);
+    showCartRemoved('Product removed from cart');
+  };
+
+  const handleClearCart = () => {
+    clearCart();
+    showCartRemoved('Cart cleared');
   };
 
   if (cartItems.length === 0) {
@@ -107,8 +119,7 @@ const Cart = () => {
                   <div className="cart-item-action">
                     <button 
                       className="remove-btn"
-                      onClick={() => removeFromCart(item.id)}
-                      title="Remove item"
+                      onClick={() => handleRemoveItem(item.id)}
                     >
                       <Trash2 size={18} />
                     </button>
@@ -118,7 +129,7 @@ const Cart = () => {
             </div>
 
             <div className="cart-items-footer">
-              <button className="clear-cart-btn" onClick={clearCart}>
+              <button className="clear-cart-btn" onClick={handleClearCart}>
                 <Trash2 size={16} />
                 Clear Cart
               </button>
@@ -153,18 +164,13 @@ const Cart = () => {
 
               <button 
                 className="checkout-btn"
-                onClick={() => navigate('/checkout')}
+                onClick={() => {
+                  startCheckoutFromCart();
+                  navigate('/checkout');
+                }}
               >
                 Proceed to Checkout
               </button>
-
-              <div className="payment-info">
-                <p>We accept:</p>
-                <div className="payment-icons">
-                  <span className="payment-method">💳 Credit Card</span>
-                  <span className="payment-method">💵 Cash on Delivery</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>

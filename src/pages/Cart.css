@@ -442,7 +442,7 @@
   .cart-item {
     grid-template-columns: 1fr;
     gap: 16px;
-    padding: 16px;
+    padding: 16px 48px 16px 16px;
   }
 
   .cart-item-product {
@@ -458,12 +458,13 @@
 
   .cart-item-details {
     flex: 1;
+    padding-right: 28px;
   }
 
   .cart-item-action {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
   }
 
   .cart-item {

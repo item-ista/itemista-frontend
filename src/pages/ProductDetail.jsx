@@ -71,9 +71,9 @@ const ProductDetail = () => {
     });
   };
 
-  const { deliveryAddress, setDeliveryAddress, addToCart, cartItems } = useCart();
+  const { deliveryAddress, setDeliveryAddress, addToCart, cartItems, setBuyNowProduct } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
-  const { showSuccess, showError } = useNotification();
+  const { showSuccess, showError, showWishlistAdded, showWishlistRemoved } = useNotification();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -151,9 +151,19 @@ const ProductDetail = () => {
   };
 
   const handleBuyNow = () => {
-    if (!isInCart) {
-      handleAddToCart();
-    }
+    if (!product) return;
+
+    const productToCheckout = {
+      id: product.id,
+      name: product.name,
+      title: product.name,
+      price: product.price,
+      originalPrice: product.cut_price,
+      image: product.image,
+      slug: product.slug,
+    };
+
+    setBuyNowProduct(productToCheckout, quantity);
     navigate('/checkout');
   };
 
@@ -198,9 +208,9 @@ const ProductDetail = () => {
 
     const isAdded = toggleWishlist(productData);
     if (isAdded) {
-      showSuccess('Added to wishlist');
+      showWishlistAdded('Added to wishlist');
     } else {
-      showSuccess('Removed from wishlist');
+      showWishlistRemoved('Removed from wishlist');
     }
   };
 

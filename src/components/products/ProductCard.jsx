@@ -6,14 +6,21 @@ import { useNotification } from '../../hooks/useNotification';
 import './ProductCard.css';
 
 const ProductCard = ({ product, viewMode = 'grid', showRemove = false }) => {
-  const { addToCart } = useCart();
+  const { addToCart, isInCart } = useCart();
   const { isInWishlist, toggleWishlist, removeFromWishlist } = useWishlist();
-  const { showSuccess } = useNotification();
+  const { showCartAdded, showCartAlreadyAdded, showWishlistAdded, showWishlistRemoved } = useNotification();
   const productId = product.id ?? product.product_id;
+  const inCart = isInCart(productId);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (inCart) {
+      showCartAlreadyAdded('Product already added to cart');
+      return;
+    }
+
     addToCart({
       id: product.id,
       name: product.name,
@@ -21,7 +28,7 @@ const ProductCard = ({ product, viewMode = 'grid', showRemove = false }) => {
       image: product.image,
       slug: product.slug,
     });
-    showSuccess(`${product.name} added to cart!`);
+    showCartAdded('Product added to cart');
   };
 
   const handleWishlistToggle = (e) => {
@@ -39,9 +46,9 @@ const ProductCard = ({ product, viewMode = 'grid', showRemove = false }) => {
     };
     const isAdded = toggleWishlist(productData);
     if (isAdded) {
-      showSuccess('Added to wishlist');
+      showWishlistAdded('Added to wishlist');
     } else {
-      showSuccess('Removed from wishlist');
+      showWishlistRemoved('Removed from wishlist');
     }
   };
 
@@ -49,7 +56,7 @@ const ProductCard = ({ product, viewMode = 'grid', showRemove = false }) => {
     e.preventDefault();
     e.stopPropagation();
     removeFromWishlist(productId);
-    showSuccess('Removed from wishlist');
+    showWishlistRemoved('Removed from wishlist');
   };
 
   const discountPercent =
@@ -95,9 +102,13 @@ const ProductCard = ({ product, viewMode = 'grid', showRemove = false }) => {
 
         {/* Add to Cart overlay on hover */}
         <div className="pc-hover-overlay">
-          <button type="button" className="pc-cart-btn" onClick={handleAddToCart}>
+          <button
+            type="button"
+            className={`pc-cart-btn ${inCart ? 'added' : ''}`}
+            onClick={handleAddToCart}
+          >
             <ShoppingCart size={16} />
-            Add to Cart
+            {inCart ? 'Added to Cart' : 'Add to Cart'}
           </button>
         </div>
       </div>

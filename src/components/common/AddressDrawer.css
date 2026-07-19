@@ -8,7 +8,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 2000;
   animation: fadeIn 0.3s ease;
 }
 
@@ -25,7 +25,7 @@
   width: 450px;
   height: 100vh;
   background: white;
-  z-index: 1001;
+  z-index: 2001;
   display: flex;
   flex-direction: column;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
@@ -252,8 +252,10 @@
 
 .address-region {
   font-size: 13px;
-  color: #666;
+  color: #64748b;
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
 }
 
 .address-badges {
@@ -369,6 +371,8 @@
 .form-group input,
 .form-group textarea {
   width: 100%;
+  max-width: 100%;
+  display: block;
   padding: 12px 14px;
   border: 2px solid #e5e5e5;
   border-radius: 8px;
@@ -376,6 +380,7 @@
   outline: none;
   transition: border-color 0.2s;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -477,6 +482,10 @@
 
   .add-address-btn {
     display: flex;
+  }
+
+  .add-address-form {
+    padding: 16px;
   }
 
   .address-list {

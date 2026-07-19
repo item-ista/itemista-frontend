@@ -159,7 +159,7 @@ const ResetPassword = () => {
             variants={containerVariants}
           >
             <motion.div variants={itemVariants} style={{ textAlign: 'center', marginBottom: '2rem' }}>
-              <img src="/logos/ItemIstaPink.png" alt="ItemIsta Logo" style={{ height: '100px', width: 'auto', objectFit: 'contain', margin: '0 auto 1rem' }} />
+              <img src="/ItemIstaPink.png" alt="ItemIsta Logo" style={{ height: '100px', width: 'auto', objectFit: 'contain', margin: '0 auto 1rem' }} />
               <h1 className="auth-title">Reset Password</h1>
               <p className="auth-subtitle">Enter your new password below</p>
             </motion.div>

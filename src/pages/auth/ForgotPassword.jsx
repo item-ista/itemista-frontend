@@ -135,7 +135,7 @@ const ForgotPassword = () => {
             variants={containerVariants}
           >
             <motion.div variants={itemVariants} style={{ textAlign: 'center', marginBottom: '2rem' }}>
-              <img src="/logos/ItemIstaPink.png" alt="ItemIsta Logo" style={{ height: '100px', width: 'auto', objectFit: 'contain', margin: '0 auto 1rem' }} />
+              <img src="/ItemIstaPink.png" alt="ItemIsta Logo" style={{ height: '100px', width: 'auto', objectFit: 'contain', margin: '0 auto 1rem' }} />
               <h1 className="auth-title">Forgot Password?</h1>
               <p className="auth-subtitle">
                 No worries! Enter your email and we'll send you a reset link.

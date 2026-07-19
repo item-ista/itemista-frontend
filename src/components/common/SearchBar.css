@@ -93,18 +93,15 @@
   justify-content: center;
   font-size: 14px;
   font-weight: 600;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   white-space: nowrap;
   height: calc(100% - 8px);
   z-index: 1;
 }
 
 .search-btn:hover {
-  background-color: #db2777;
-}
-
-.search-btn:hover {
-  background-color: #e64a19;
+  background-color: #be185d;
+  transform: translateY(-50%) scale(1.02);
 }
 
 /* Live Search Results Dropdown */
@@ -347,7 +344,7 @@
     right: 4px;
     height: 40px;
     border-radius: 20px;
-    background-color: #ff5722;
+    background-color: #ec4899;
   }
 
   .search-result-item {

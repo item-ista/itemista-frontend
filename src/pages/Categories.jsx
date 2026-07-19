@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { Search } from 'lucide-react';
+import { Search, Loader2 } from 'lucide-react';
+import { productService } from '../services/productService';
+import ProductCard from '../components/products/ProductCard';
 import './Categories.css';
 
 const Categories = () => {
   const [activeCategory, setActiveCategory] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const mainCategories = [
     { id: 0, name: 'All Categories', emoji: '📋' },
@@ -21,11 +25,32 @@ const Categories = () => {
     { id: 11, name: 'Toiletries', emoji: '🚿' },
   ];
 
+  useEffect(() => {
+    if (activeCategory !== 0) {
+      fetchCategoryProducts();
+    }
+  }, [activeCategory]);
+
+  const fetchCategoryProducts = async () => {
+    setLoading(true);
+    try {
+      const categoryName = mainCategories.find(c => c.id === activeCategory)?.name;
+      if (categoryName) {
+        const data = await productService.getProductsByCategory(categoryName);
+        setProducts(data);
+      }
+    } catch (error) {
+      console.error('Error fetching category products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="categories-page">
       {/* Mobile Search Header */}
       <div className="categories-mobile-header">
-        <Link to="/" className="back-btn">
+        <Link to="/" className="back-btn-cat">
           &larr;
         </Link>
         <span className="header-title">Categories</span>
@@ -43,28 +68,58 @@ const Categories = () => {
               className={`sidebar-item ${activeCategory === category.id ? 'active' : ''}`}
               onClick={() => setActiveCategory(category.id)}
             >
-              <span className="sidebar-emoji">{category.emoji}</span>
-              <span className="sidebar-text">{category.name}</span>
+              <div className="sidebar-item-inner">
+                <span className="sidebar-emoji">{category.emoji}</span>
+                <span className="sidebar-text">{category.name}</span>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Category Cards Grid - Click to go to products */}
+        {/* Right Panel */}
         <div className="subcategories-container">
-          <div className="subcategories-grid">
-            {(activeCategory === 0 ? mainCategories.filter(c => c.id !== 0) : [mainCategories.find(c => c.id === activeCategory)]).map((cat) => (
-              <Link
-                key={cat.id}
-                to={`/flash-sale?category=${encodeURIComponent(cat.name)}`}
-                className="subcat-card"
-              >
-                <div className="subcat-image-wrapper">
-                  <span className="subcat-emoji">{cat.emoji}</span>
+          {activeCategory === 0 ? (
+            /* Show Categories Grid when "All Categories" is selected */
+            <div className="subcategories-grid">
+              {mainCategories.filter(c => c.id !== 0).map((cat) => (
+                <div
+                  key={cat.id}
+                  className="subcat-card"
+                  onClick={() => setActiveCategory(cat.id)}
+                >
+                  <div className="subcat-image-wrapper">
+                    <span className="subcat-emoji">{cat.emoji}</span>
+                  </div>
+                  <span className="subcat-name">{cat.name}</span>
                 </div>
-                <span className="subcat-name">{cat.name}</span>
-              </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            /* Show Products for selected category */
+            <div className="category-products-view">
+              <div className="category-banner">
+                <h3>{mainCategories.find(c => c.id === activeCategory)?.name}</h3>
+                <span className="product-count">{products.length} Items</span>
+              </div>
+
+              {loading ? (
+                <div className="cat-loading">
+                  <Loader2 className="spin" size={32} />
+                  <p>Loading products...</p>
+                </div>
+              ) : products.length === 0 ? (
+                <div className="cat-empty">
+                  <p>No products found in this category.</p>
+                </div>
+              ) : (
+                <div className="cat-products-grid">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -4,17 +4,13 @@ import './CategoriesSection.css';
 
 const CategoriesSection = () => {
   const categories = [
-    { id: 1, name: 'Skin Care', emoji: '🧴' },
-    { id: 2, name: 'Hair Care', emoji: '💇' },
-    { id: 3, name: 'Face Care', emoji: '🧖' },
-    { id: 4, name: 'Sexual Wellness', emoji: '💊' },
-    { id: 5, name: 'Personal Hygiene', emoji: '🧼' },
-    { id: 6, name: 'Feminine Care', emoji: '🌸' },
-    { id: 7, name: 'Confectionery', emoji: '🍬' },
-    { id: 8, name: 'Pet Foods', emoji: '🐾' },
-    { id: 9, name: 'Juice & Beverages', emoji: '🥤' },
-    { id: 10, name: 'Oral Care', emoji: '🪥' },
-    { id: 11, name: 'Toiletries', emoji: '🚿' },
+    { id: 1, name: 'Skin Care', image: '/CategoriesLogo/SKIN CARE.png' },
+    { id: 2, name: 'Hair Care', image: '/CategoriesLogo/HAIR CARE.png' },
+    { id: 3, name: 'Face Care', image: '/CategoriesLogo/FACE CARE.png' },
+    { id: 4, name: 'Sexual Wellness', image: '/CategoriesLogo/SEXUAL WELLNESS.png' },
+    { id: 6, name: 'Feminine Care', image: '/CategoriesLogo/FEMININE CARE.png' },
+    { id: 7, name: 'Confectionery', image: '/CategoriesLogo/CONFECTIONERY.png' },
+    { id: 10, name: 'Oral Care', image: '/CategoriesLogo/ORAL CARE.png' },
   ];
 
   const containerVariants = {
@@ -70,7 +66,7 @@ const CategoriesSection = () => {
               className="category-card"
             >
               <div className="category-image-wrapper">
-                <span className="category-emoji">{category.emoji}</span>
+                <img src={category.image} alt={category.name} className="category-logo-img" />
               </div>
               <span className="category-name">{category.name}</span>
             </Link>

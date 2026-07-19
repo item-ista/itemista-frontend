@@ -38,6 +38,7 @@ import Addresses from '../pages/user/Addresses';
 import Cart from '../pages/Cart';
 import Checkout from '../pages/Checkout';
 import PaymentSelection from '../pages/PaymentSelection';
+import PaymentDetails from '../pages/PaymentDetails';
 import PaymentSuccess from '../pages/PaymentSuccess';
 
 // Admin Pages
@@ -126,6 +127,10 @@ const router = createBrowserRouter([
           {
             path: 'payment',
             element: <PaymentSelection />,
+          },
+          {
+            path: 'payment-details',
+            element: <PaymentDetails />,
           },
           {
             path: 'payment-success',

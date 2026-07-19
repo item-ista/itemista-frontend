@@ -10,22 +10,17 @@ const getStoredAddresses = () => {
   try {
     const saved = localStorage.getItem('addresses');
     if (saved) {
-      return JSON.parse(saved);
-    }
-    // Return default address if none exists
-    return [
-      {
-        id: 'default-1',
-        name: 'Zeeshan Haider Soomro',
-        phone: '0320 2727926',
-        tag: 'HOME',
-        address: 'Rabia City, block 18, Gulistan e Johar',
-        region: 'Sindh - Karachi - Gulistan-e-Johar - Block 18',
-        fullAddress: 'Rabia City, block 18, Gulistan e Johar, Sindh - Karachi - Gulistan-e-Johar - Block 18',
-        isDefaultShipping: true,
-        isDefaultBilling: true
+      const parsed = JSON.parse(saved);
+      // Remove old dummy address (id: 'default-1') if it exists
+      const cleaned = parsed.filter(addr => addr.id !== 'default-1');
+      if (cleaned.length !== parsed.length) {
+        // Save cleaned version back to localStorage
+        localStorage.setItem('addresses', JSON.stringify(cleaned));
       }
-    ];
+      return cleaned;
+    }
+    // Return empty array for new customers - no dummy addresses
+    return [];
   } catch (error) {
     console.error('Failed to parse stored addresses:', error);
     return [];

@@ -163,6 +163,15 @@
   box-shadow: 0 6px 18px rgba(233, 30, 99, 0.5);
 }
 
+.product-card .pc-cart-btn.added {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+}
+
+.product-card .pc-cart-btn.added:hover {
+  box-shadow: 0 6px 18px rgba(22, 163, 74, 0.45);
+}
+
 /* ─── Info Section ──────────────────────────────── */
 .product-card .pc-info {
   padding: 12px 14px 16px;
